@@ -2,14 +2,6 @@
 {
     "menu": "Inicio",
     "url": "/"
-},
-{
-    "menu": "Portafolio",
-    "url": "/portafolio"
-},
-{
-    "menu": "Login",
-    "url": "/login"
 }
 
 ]

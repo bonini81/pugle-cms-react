@@ -14,7 +14,7 @@ import EditUser from "../pages/backOffice/Users/UserEditItem";
 import PrivateRoutes from "../utils/PrivateRoutes";
 
 const LayOutBackOffice = lazy(() => import("../components/LayOutBackOffice"));
-const Home = lazy(() => import("../pages/Home"));
+// const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
 const Portfolio = lazy(() => import("../pages/Portfolio"));
 const StaticPortfolio = lazy(() => import("../pages/StaticPortfolio"));
@@ -28,7 +28,7 @@ const AppRoutes = () => {
       <Suspense fallback={<Spinner />}>
         <Routes>
           <Route element={<LayOut />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Login />} />
             <Route path="/portafolio" element={<Portfolio />} />
             <Route path="/portafolio2" element={<StaticPortfolio />} />
             <Route path="/portafolioItem/:key" element={<PortfolioItem />} />
