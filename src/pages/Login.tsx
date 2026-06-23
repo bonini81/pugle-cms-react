@@ -53,12 +53,12 @@ const Login = () => {
 
   const authToken = async (userData: FormValues) => {
     try {
-      await authService.postAuthWordpressLogin(userData);
-      const response = await authService.postAuthWordpressLogin(userData);
-      const data = await response.data;
-      localStorage.setItem("token", data.token);
-      dispatch(setCurrentUser(data.name));
-      dispatch(setCurrentToken(data.token));
+      const { token, displayName } = await authService.signIn(userData);
+      const currentUser = displayName || userData.email;
+      localStorage.setItem("token", token);
+      localStorage.setItem("currentUser", currentUser);
+      dispatch(setCurrentUser(currentUser));
+      dispatch(setCurrentToken(token));
       navigate("/backoffice/home");
     } catch (err: any) {
       alert("Credenciales incorrectas");

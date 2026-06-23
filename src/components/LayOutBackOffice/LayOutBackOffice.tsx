@@ -1,39 +1,52 @@
-import { useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
+/* eslint-disable simple-import-sort/imports */
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
 import Person2Icon from "@mui/icons-material/Person2";
 import SpeedIcon from "@mui/icons-material/Speed";
 import StorageIcon from "@mui/icons-material/Storage";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import "../../scss/LayoutBackOffice.scss";
-import logo from "../../assets/header/freelance-desarrolloweb-seo.png";
-import footerText from "../../data/footerLinks.json";
-import menuLinksArrayBackOffice from "../../data/menuLinksBackOffice.json";
+import authService from "../../services/auth.service";
+import { removeToken, removeUser } from "../../store";
 import Button from "../Boton";
 import Footer from "../Footer";
 import Header from "../Header";
-
-const handleLogout = () => {
-  localStorage.removeItem("token");
-  // Next step clear Redux Store
-};
+import footerText from "../../data/footerLinks.json";
+import logo from "../../assets/header/freelance-desarrolloweb-seo.png";
+import menuLinksArrayBackOffice from "../../data/menuLinksBackOffice.json";
+import "../../scss/LayoutBackOffice.scss";
 
 const { copyright } = footerText;
-const headerProps = {
-  logo: {
-    src: logo,
-    alt: "Freelance Front End Developer",
-    width: 170,
-    height: 90,
-  },
-  menuLinks: menuLinksArrayBackOffice,
-  onClick: handleLogout,
-};
 
 const LayOutBackOffice = (): JSX.Element => {
+  const dispatch = useDispatch();
   const dataStorUsers = useSelector((state: any) => state.users);
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await authService.signOut();
+    } catch (error) {
+      // ignore sign-out errors and continue clearing state
+    }
+    localStorage.removeItem("token");
+    localStorage.removeItem("currentUser");
+    dispatch(removeToken());
+    dispatch(removeUser());
+    navigate("/login");
+  };
+
+  const headerProps = {
+    logo: {
+      src: logo,
+      alt: "Freelance Front End Developer",
+      width: 170,
+      height: 90,
+    },
+    menuLinks: menuLinksArrayBackOffice,
+    onClick: handleLogout,
+  };
 
   return (
     <>
